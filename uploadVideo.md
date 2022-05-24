@@ -4,7 +4,7 @@ The company needs to realize a page for users to upload their videos online. In 
 + click `select` button
 + choose a video
 + upload the video online
-<img width="940" alt="image" src="https://user-images.githubusercontent.com/75397936/170137117-ae9ec9d4-9195-4b75-afc4-492c263ea2f8.png">
+<img width="921" alt="image" src="https://user-images.githubusercontent.com/75397936/170139264-d3a838fe-6f24-42f6-a60c-85f39feb0eff.png">
 
 ## Environment
 Stream Video API we are using is `Mux`. So videos should upload into `Mux`. 
