@@ -30,7 +30,10 @@ Project Code: https://github.com/vercel/next.js/tree/canary/examples/with-mux-vi
 ## Steps<br>
 Reference: [Upload files directly](https://docs.mux.com/guides/video/upload-files-directly#creating-an-upload-route-in-the-application). <br>
 **1. Create an authenticated Mux URL** <br>
- `api/upload/[id].js`<br>
+
+This file handles the request to upload a selected video and return {id: upload.id, url: upload.url}. `upload.url` is the url for client to upload.<br>
+
+ `api/upload.js`<br>
 
 ```js
 import Mux from '@mux/mux-node'
@@ -40,23 +43,23 @@ export default async function uploadHandler(req, res) {
   const { method } = req
 
   switch (method) {
-    case 'GET':
+    case 'POST':
       try {
-        const upload = await Video.Uploads.get(req.query.id)
+        const upload = await Video.Uploads.create({
+          new_asset_settings: { playback_policy: 'public' },
+          cors_origin: '*',
+        })
         res.json({
-          upload: {
-            status: upload.status,
-            url: upload.url,
-            asset_id: upload.asset_id,
-          },
+          id: upload.id,
+          url: upload.url,
         })
       } catch (e) {
         console.error('Request error', e)
-        res.status(500).json({ error: 'Error getting upload/asset' })
+        res.status(500).json({ error: 'Error creating upload' })
       }
       break
     default:
-      res.setHeader('Allow', ['GET'])
+      res.setHeader('Allow', ['POST'])
       res.status(405).end(`Method ${method} Not Allowed`)
   }
 }
